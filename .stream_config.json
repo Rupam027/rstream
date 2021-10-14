@@ -1,0 +1,21 @@
+{
+
+	"streams" :
+	[
+		{
+			"source" :     "brave" ,
+			"destination" : "Discord"
+			
+		},
+
+		{
+			"source" : "brave" ,
+			"destination" : "brave" 
+		}
+		
+		
+
+	]
+
+
+}
