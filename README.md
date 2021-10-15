@@ -1,7 +1,7 @@
 # rstream
 
 <blockquote>
-**Stream When and Wherever you want** 
+Stream When and Wherever you want
 </blockquote>
 
 **rstream** is a audio streaming utility tool made exclusively for linux users . 
