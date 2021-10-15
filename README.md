@@ -1,6 +1,8 @@
 # rstream
 
+<blockquote>
 **Stream When and Wherever you want** 
+</blockquote>
 
 rstream is a audio streaming utility tool made exclusively for linux users . 
 
@@ -21,7 +23,7 @@ You Can add all the applications you use for streaming in a simple configuration
 
 ```
 
-**3. Run the command **
+**3. Run the command**
 
 *./rstream <options>*
  
