@@ -1,4 +1,6 @@
-from os import popen
+#!/usr/bin/python3
+ 
+from os import * 
 from mappings import * 
 
 def get_playbacks():
@@ -106,25 +108,26 @@ def list_streams_status(streams):
         
             
             
-
+import codecs
 if __name__ == '__main__' :
 
     from sys import argv
     import json 
-
-    with open(".stream_config.json" , 'r')  as stream_file : 
+	
+    with codecs.open(f"{environ['HOME']}/.config/rstream/.stream_config.json" , 'r')  as stream_file : 
         streams = json.load(stream_file)
 
     argument_count = len(argv)
 
         
-    if argument_count <= 4:
+    if 1 < argument_count <= 4:
         if argv[1] == "list" :
             list_streams_status(streams["streams"]) 
         elif argv[1] == "start":
             start_streaming(argv[2] , argv[3])
         elif argv[1] == "stop":
             stop_streaming(argv[2] , argv[3])
+        
                        
     else:
         print("Invalid no. of arguments")

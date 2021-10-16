@@ -1,0 +1,23 @@
+#!/usr/bin/bash
+
+if [ $# -eq 1 ]; then
+
+if [ -f  /usr/bin/rstream ] && [ -f /usr/bin/mappings.py ];  then
+echo "Removing files ...."
+rm -f /usr/bin/rstream /usr/bin/mappings.py 
+rm -rf ~/.config/rstream
+echo "Uninstallation Complete"
+else
+echo "Invalid Command"
+fi
+
+elif [ -f  /usr/bin/rstream ] && [ -f /usr/bin/mappings.py ];  then
+echo "Already Installed"
+else
+echo "Copying required files ...."
+cp rstream mappings.py /usr/bin
+mkdir ~/.config/rstream
+cp .stream_config.json ~/.config/rstream
+echo "Installation Complete"
+fi
+
