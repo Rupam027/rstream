@@ -1,18 +1,16 @@
 # rstream
 
-<blockquote>
-Stream When and Wherever you want
-</blockquote>
+> **Stream When and Wherever you want**
+
 
 **rstream** is a audio streaming utility tool made exclusively for linux users . 
 
 You can add all the applications you use for streaming in a simple configuration file **.stream-config**
 
 
-> **Note**
+**Note**
 
-
-You need to r
+You need to run rstream-init before using rstream . Also , You can add rstream-init into autostart settings of your distribution . 
 
 
 ### Installation guide 
