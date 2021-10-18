@@ -28,7 +28,7 @@ You need to run rstream-init before using rstream . Also , You can add rstream-i
 ./install
 ```
 
-**User Installation
+**User Installation**
 
 ```
 ./install --user   
