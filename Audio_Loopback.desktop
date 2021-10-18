@@ -1,0 +1,7 @@
+[Desktop Entry]
+Version=1.0
+Terminal=false
+Type=Application
+Name=Audio-Loopback
+Exec=/home/rupam/scripts/audioloopback
+
