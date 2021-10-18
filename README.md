@@ -8,9 +8,9 @@ Stream When and Wherever you want
 
 You can add all the applications you use for streaming in a simple configuration file **.stream-config**
 
-<blockquote>
-**Note**
-</blockquote>
+
+> **Note**
+
 
 You need to r
 
