@@ -24,7 +24,14 @@ You need to run rstream-init before using rstream . Also , You can add rstream-i
 **2. Run the install script** 
 
 ```
+**System Wide**
+ 
 ./install
+
+**User Installation**
+
+./install --user  . 
+
 ```
 
 **3. Run the command**
@@ -39,3 +46,15 @@ You need to run rstream-init before using rstream . Also , You can add rstream-i
  rstream start <stream-source-id> <stream-destination-id> - Start a Stream
  
  rstream stop <stream-source-id> <stream-destination-id> -  Stop a Stream
+ 
+ ### Uninstallation 
+ 
+ Run the install script again with the following options :
+ 
+ ./install --user --uninstall - If installation is done for particular user . 
+ 
+ ./install  --uninstall - If installation is done in root mode . 
+ 
+ 
+ 
+ 
