@@ -43,9 +43,9 @@ You need to run rstream-init before using rstream . Also , You can add rstream-i
  
  rstream list        - List  status of all streams . 
  
- rstream start <stream-source-id> <stream-destination-id> - Start a Stream
+ rstream start (stream-source-id) (stream-destination-id) - Start a Stream
  
- rstream stop <stream-source-id> <stream-destination-id> -  Stop a Stream
+ rstream stop (stream-source-id) (stream-destination-id) -  Stop a Stream
  
  ### Uninstallation 
  
