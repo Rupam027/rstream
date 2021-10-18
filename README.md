@@ -8,6 +8,13 @@ Stream When and Wherever you want
 
 You can add all the applications you use for streaming in a simple configuration file **.stream-config**
 
+<blockquote>
+**Note 
+</blockquote>
+
+You need to r
+
+
 ### Installation guide 
 
 **1. Clone this repostitory** 
@@ -24,16 +31,13 @@ You can add all the applications you use for streaming in a simple configuration
 
 **3. Run the command**
 
-*./rstream <options>*
+*rstream <options>*
  
  
  ### Usage
  
+ rstream list        - List  status of all streams . 
  
- ./rstream --help      - To get information regarding options 
+ rstream start <stream-source-id> <stream-destination-id> - Start a Stream
  
- ./rstream list        - List  status of all streams . 
- 
- ./rstream start <stream-source-id> <stream-destination-id> - Start a Stream
- 
- ./rstream stop <stream-source-id> <stream-destination-id> -  Stop a Stream
+ rstream stop <stream-source-id> <stream-destination-id> -  Stop a Stream
