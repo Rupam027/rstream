@@ -21,6 +21,37 @@ You can add all the applications you use for streaming in a simple configuration
 > Before running the **rstream-init** ,  replace the Source and Sink variable value with your own source and sink name . 
 > You can get the System source and sink information using the **pactl list sources** and **pactl list sinks** .  
 
+**Sample Configuration file**  ~/.config/rstream
+```json
+{
+	 "system_source" : "<YOUR SYSTEM SOURCE NAME>" ,
+	 "system_sink" :   "<YOUR SYSTEM SINK NAME>" ,
+  "DEFAULT-EDITOR" : "nano" , 
+	"streams" :
+	[
+		{
+			"source" :     "brave" ,
+			"destination" : "Discord"
+			
+		},
+
+		{
+			"source" : "brave" ,
+			"destination" : "brave" 
+		}
+		
+		
+
+	]
+
+
+}
+
+
+```
+
+
+
 
 ### Installation guide 
 
