@@ -2,6 +2,7 @@
 
 PREFIX='/usr'
 
+
 if [[ $1 == "--user" || $2 == "--user" ]]; then
     PREFIX="$HOME/.local"
 fi
@@ -12,8 +13,7 @@ then
     if [ -f  $PREFIX/bin/rstream ] && [ -f $PREFIX/bin/mappings.py ]
     then
         echo "Removing files ...."
-        rm -f $PREFIX/bin/rstream $PREFIX/bin/mappings.py $PREFIX/bin/rstream-init 
-        rm -rf ~/.config/rstream
+        rm -f  $PREFIX/bin/rstream $PREFIX/bin/mappings.py $PREFIX/bin/rstream-init 
         echo "Uninstallation Complete"
     else
     	echo "Not Installed"
@@ -25,8 +25,6 @@ elif [ -f  $PREFIX/bin/rstream ] && [ -f $PREFIX/bin/mappings.py ];  then
 else
     echo "Copying required files and setting up audio modules...."
     cp rstream mappings.py rstream-init $PREFIX/bin
-    mkdir -p ~/.config/rstream
-    cp .stream_config.json ~/.config/rstream
     echo "Installation Complete"
     
 fi

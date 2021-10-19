@@ -66,9 +66,9 @@ def start_streaming(src , dest):
     
 
 
-def stop_streaming(src , dest):
+def stop_streaming(devices , src , dest):
 
-	SOURCE , SINK = (environ['Source'] , environ['Sink'])
+	SOURCE , SINK = (devices[0] , devices[1])
 	system_source = get_source_id_by_name(SOURCE)
 	system_sink   = get_sink_id_by_name(SINK)
 
@@ -77,11 +77,10 @@ def stop_streaming(src , dest):
     
     
 
-def list_streams_status(streams):
+def list_streams_status(devices , streams):
 
     print("Source-Instance-Id  Source-Instance-Binary Destination-Instance-Id Destination-Instance-Name Status")
-    SOURCE = environ['Source']
-    SINK   = environ['Sink']
+    SOURCE , SINK = (devices[0] , devices[1])
 	
     for stream in streams:
         src  = stream["source"]
@@ -109,7 +108,15 @@ def list_streams_status(streams):
                 else:
                     print(s[0] , s[1] , d[0] , d[1] , "✅(Started)" , sep="\t\t\t")
         
-        
+
+def generate_help():
+
+    help_lines = ['Usage: rstream [OPTION] ... ', 'Stream content everywhere .', 'Example: rstream start <PARAMETERS> ', '', 'Options ', '', '  list                    get complete information of all streams', '  start <stream-source-id> <stream-destination-id>      Start a stream', '  stop  <stream-source-id> <stream-destination-id>      Stop a stream', '  config                  Open Configuration file ']
+    for line in help_lines:
+        print(line)
+
+def config(filename , editor):
+    system(f"{editor} {filename}")
         
             
             
@@ -117,22 +124,28 @@ import codecs
 if __name__ == '__main__' :
 
     from sys import argv
-    import json 
-	
-    with codecs.open(f"{environ['HOME']}/.config/rstream/.stream_config.json" , 'r')  as stream_file : 
-        streams = json.load(stream_file)
-
+    import json
+    filename = f"{environ['HOME']}/.config/rstream/.stream_config.json"
+    try:
+        with codecs.open(filename , 'r')  as stream_file :
+            streams = json.load(stream_file)
+    except FileNotFoundError as fof:
+        print(f"Configuration file not found at {environ['HOME']}/.config/rstream/")
+        exit()    
     argument_count = len(argv)
-
-        
+    audio_devs = (streams["system_source"] , streams["system_sink"])
+    
     if 1 < argument_count <= 4:
         if argv[1] == "list" :
-            list_streams_status(streams["streams"]) 
+            list_streams_status(audio_devs , streams["streams"]) 
         elif argv[1] == "start":
-            start_streaming(argv[2] , argv[3])
+            start_streaming(audio_devs , argv[2] , argv[3])
         elif argv[1] == "stop":
             stop_streaming(argv[2] , argv[3])
-        
+        elif argv[1] == "help":
+            generate_help()
+        elif argv[1] == "config":
+            config(filename , streams["DEFAULT-EDITOR"])
                        
     else:
         print("Invalid no. of arguments")
