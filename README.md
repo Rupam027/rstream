@@ -5,7 +5,7 @@
 
 **rstream** is a audio streaming utility tool made exclusively for linux users . 
 
-You can add all the applications you use for streaming in a simple configuration file **.stream-config**
+You can add all the applications you use for streaming in a simple configuration file **.stream_config.json**
 
 
 **Requirements** 
