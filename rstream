@@ -86,7 +86,6 @@ def list_streams_status(devices , streams):
         src  = stream["source"]
         dest = stream["destination"]
         sources , destinations = get_playbacks() , get_recording_streams()
-        
         f1 , f2 = [] , []
         for source in sources :
             if source[1] == src:
@@ -103,7 +102,7 @@ def list_streams_status(devices , streams):
 
         for s in f1:
             for d  in f2:
-                if int(s[2]) == int(get_sink_id_by_name(SINK)) and int(d[2]) == int(get_source_id_by_name(SOURCE)):
+                if (int(s[2]) == int(get_sink_id_by_name(SINK))) and (int(d[2]) == int(get_source_id_by_name(SOURCE))):
                     print(s[0] , s[1] ,  d[0] , d[1] , "✅(Not-Started)" , sep="\t\t\t")
                 else:
                     print(s[0] , s[1] , d[0] , d[1] , "✅(Started)" , sep="\t\t\t")
@@ -139,9 +138,9 @@ if __name__ == '__main__' :
         if argv[1] == "list" :
             list_streams_status(audio_devs , streams["streams"]) 
         elif argv[1] == "start":
-            start_streaming(audio_devs , argv[2] , argv[3])
+            start_streaming(argv[2] , argv[3])
         elif argv[1] == "stop":
-            stop_streaming(argv[2] , argv[3])
+            stop_streaming(audio_devs , argv[2] , argv[3])
         elif argv[1] == "help":
             generate_help()
         elif argv[1] == "config":
