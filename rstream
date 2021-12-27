@@ -107,10 +107,55 @@ def list_streams_status(devices , streams):
                 else:
                     print(s[0] , s[1] , d[0] , d[1] , "✅(Started)" , sep="\t\t\t")
         
+def list_dmenu(devices , streams , selection):
+
+    
+    SOURCE , SINK = (devices[0] , devices[1])
+
+    output = ""
+    for stream in streams:
+        src  = stream["source"]
+        dest = stream["destination"]
+        sources , destinations = get_playbacks() , get_recording_streams()
+        f1 , f2 = [] , []
+        for source in sources :
+            if source[1] == src:
+                f1.append(source)
+                
+
+        for destination in destinations:
+            if destination[1] == dest:
+                f2.append(destination)
+
+
+        
+        if f1 == [] or f2 == []:
+            output = output + "-----" + " " +  src +  " " + "-----" + " " +  dest + " " +  " ❌" + "\n" 
+
+        
+        for s in f1:
+            for d  in f2:
+                if (int(s[2]) == int(get_sink_id_by_name(SINK))) and (int(d[2]) == int(get_source_id_by_name(SOURCE))):
+                    output = output + s[0] + " " +  s[1]  + " " +   d[0]  + " " + d[1]  +   " " + "✅(Not-Started)" + "\n"
+                else:
+                    output = output + s[0] + " " +  s[1] + " " +  d[0] + " " +  d[1] + " " + "✅(Started)" + "\n" 
+    
+    
+    option = popen(f'echo "{output}" | dmenu -l 5 -p "All Streams:" ').read().split()
+    if option[0] != '-----'  and  option[2] != '-----':
+        playback , recording = option[0] , option[2]
+        if selection == 'on' : 
+            start_streaming(playback , recording)
+        elif selection == 'off':
+            stop_streaming(playback , recording)
+    else:
+        system('notify-send "Stream not active"')
+            
+
 
 def generate_help():
 
-    help_lines = ['Usage: rstream [OPTION] ... ', 'Stream content everywhere .', 'Example: rstream start <PARAMETERS> ', '', 'Options ', '', '  list                    get complete information of all streams', '  start <stream-source-id> <stream-destination-id>      Start a stream', '  stop  <stream-source-id> <stream-destination-id>      Stop a stream', '  config                  Open Configuration file ']
+    help_lines = ['Usage: rstream [OPTION] ... ', 'Stream content everywhere .', 'Example: rstream start <PARAMETERS> ', '', 'Options ', '', '  list                    get complete information of all streams', ' -d on   start dmenu to start a stream' ,   ' -d off   start dmenu to stop a stream' , 'start <stream-source-id> <stream-destination-id>      Start a stream', '  stop  <stream-source-id> <stream-destination-id>      Stop a stream', '  config                  Open Configuration file ']
     for line in help_lines:
         print(line)
 
@@ -136,9 +181,12 @@ if __name__ == '__main__' :
     
     if 1 < argument_count <= 4:
         if argv[1] == "list" :
-            list_streams_status(audio_devs , streams["streams"]) 
+            list(audio_devs , streams["streams"])
+        elif argv[1] == '-d' :
+            list_dmenu(audio_devs , streams["streams"] , argv[2])
+
         elif argv[1] == "start":
-            start_streaming(argv[2] , argv[3])
+            start_streaming(audio_devs , argv[2] , argv[3])
         elif argv[1] == "stop":
             stop_streaming(audio_devs , argv[2] , argv[3])
         elif argv[1] == "help":
