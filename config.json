@@ -1,7 +1,7 @@
 {
-	"system_source" : "<Your System Source>" ,
-	"system_sink" : "<Your System Sink>" ,
-
+	"system_source" : "<Source>" ,
+	"system_sink" : "<Sink>" ,
+	"menu" : "<Menu>",
 	"streams" :
 	[
 		{

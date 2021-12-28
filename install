@@ -26,7 +26,14 @@ elif [ -f  $PREFIX/bin/rstream ] && [ -f $PREFIX/bin/mappings.py ];  then
 else
     echo "Copying required files and setting up audio modules...."
     sudo cp rstream mappings.py rstream-init $PREFIX/bin
+    echo -n "System Source : "
+    read src
+    echo -n "System Sink : "
+    read sink
+    echo -n "Menu [dmenu|rofi] : "
+    read menu
+    [[ $menu == '' ]] && menu=dmenu
     mkdir -p ~/.config/rstream
-    cp config.json ~/.config/rstream
+    sed "s/<Source>/$src/;s/<Sink>/$sink/;s/<Menu>/$menu/" config.json > ~/.config/rstream/config.json
     echo "Installation Complete"
 fi
