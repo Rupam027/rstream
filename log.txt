@@ -1,1 +1,22 @@
-2021/10/19 00:27:03 Micro started
+2021/10/19 22:06:24 Micro started
+2021/10/19 22:06:24 editorconfig log: Running on file /home/rupam/scripts/rstream/rstream
+2021/10/19 22:06:24 editorconfig log: editorconfig core output: 
+
+2021/10/19 22:06:24 editorconfig log: Done.
+2021/10/19 22:07:14 snippets-plugin -> function onBeforeTextEvent(ev) = userdata: 0xc000472f30
+2021/10/19 22:07:15 editorconfig log: Running on file /home/rupam/scripts/rstream/rstream
+2021/10/19 22:07:15 editorconfig log: editorconfig core output: 
+
+2021/10/19 22:07:15 editorconfig log: Done.
+2021/10/19 22:07:16 editorconfig log: Running on file /home/rupam/scripts/rstream/rstream
+2021/10/19 22:07:16 editorconfig log: editorconfig core output: 
+
+2021/10/19 22:07:16 editorconfig log: Done.
+2021/10/19 22:07:16 editorconfig log: Running on file /home/rupam/scripts/rstream/rstream
+2021/10/19 22:07:16 editorconfig log: editorconfig core output: 
+
+2021/10/19 22:07:16 editorconfig log: Done.
+2021/10/19 22:07:17 editorconfig log: Running on file /home/rupam/scripts/rstream/rstream
+2021/10/19 22:07:17 editorconfig log: editorconfig core output: 
+
+2021/10/19 22:07:17 editorconfig log: Done.

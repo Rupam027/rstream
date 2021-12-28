@@ -2,6 +2,7 @@
 
 PREFIX='/usr'
 
+
 if [[ $1 == "--user" || $2 == "--user" ]]; then
     PREFIX="$HOME/.local"
 fi
@@ -28,5 +29,4 @@ else
     mkdir -p ~/.config/rstream
     cp .stream_config.json ~/.config/rstream
     echo "Installation Complete"
-    
 fi

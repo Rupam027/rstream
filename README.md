@@ -5,7 +5,7 @@
 
 **rstream** is a audio streaming utility tool made exclusively for linux users . 
 
-You can add all the applications you use for streaming in a simple configuration file **.stream-config**
+You can add all the applications you use for streaming in a simple configuration file **.stream_config.json**
 
 
 **Requirements** 
@@ -20,6 +20,37 @@ You can add all the applications you use for streaming in a simple configuration
 > You need to run **rstream-init** before using rstream . Also , You can add rstream-init into autostart settings of your distribution . 
 > Before running the **rstream-init** ,  replace the Source and Sink variable value with your own source and sink name . 
 > You can get the System source and sink information using the **pactl list sources** and **pactl list sinks** .  
+
+**Sample Configuration file**  ~/.config/rstream
+```json
+{
+	 "system_source" : "<YOUR SYSTEM SOURCE NAME>" ,
+	 "system_sink" :   "<YOUR SYSTEM SINK NAME>" ,
+  "DEFAULT-EDITOR" : "nano" , 
+	"streams" :
+	[
+		{
+			"source" :     "brave" ,
+			"destination" : "Discord"
+			
+		},
+
+		{
+			"source" : "brave" ,
+			"destination" : "brave" 
+		}
+		
+		
+
+	]
+
+
+}
+
+
+```
+
+
 
 
 ### Installation guide 
