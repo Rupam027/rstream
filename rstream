@@ -141,7 +141,7 @@ def list_dmenu(devices , streams , selection):
                     output = output + s[0] + " " +  s[1] + " " +  d[0] + " " +  d[1] + " " + "✅(Started)" + "\n" 
     
     
-    option = popen(f'echo "{output}" | dmenu -l 5 -p "All Streams:" ').read().split()
+    option = popen(f'echo "{output}" | dmenu -l 5').read().split()
     if len(option) > 0:
         if option[0] != '-----'  and  option[2] != '-----':
             playback , recording = option[0] , option[2]
