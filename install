@@ -27,6 +27,6 @@ else
     echo "Copying required files and setting up audio modules...."
     sudo cp rstream mappings.py rstream-init $PREFIX/bin
     mkdir -p ~/.config/rstream
-    cp .stream_config.json ~/.config/rstream
+    cp config.json ~/.config/rstream
     echo "Installation Complete"
 fi

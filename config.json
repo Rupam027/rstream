@@ -1,0 +1,27 @@
+{
+	"system_source" : "<Your System Source>" ,
+	"system_sink" : "<Your System Sink>" ,
+
+	"streams" :
+	[
+		{
+			"source" :     "brave" ,
+			"destination" : "Discord"
+			
+		},
+		{
+			"source" :     "vlc" ,
+			"destination" : "Discord"
+			
+		},
+		{
+			"source" :     "mpv" ,
+			"destination" : "Discord"
+			
+		},
+		{
+			"source" : "brave" ,
+			"destination" : "brave" 
+		}
+	]
+}

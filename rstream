@@ -170,7 +170,7 @@ if __name__ == '__main__' :
 
     from sys import argv
     import json
-    filename = f"{environ['HOME']}/.config/rstream/.stream_config.json"
+    filename = f"{environ['HOME']}/.config/rstream/config.json"
     try:
         with codecs.open(filename , 'r')  as stream_file :
             streams = json.load(stream_file)
