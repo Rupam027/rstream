@@ -142,15 +142,16 @@ def list_dmenu(devices , streams , selection):
     
     
     option = popen(f'echo "{output}" | dmenu -l 5 -p "All Streams:" ').read().split()
-    if option[0] != '-----'  and  option[2] != '-----':
-        playback , recording = option[0] , option[2]
-        if selection == 'on' : 
-            start_streaming(playback , recording)
-        elif selection == 'off':
-            stop_streaming(playback , recording)
-    else:
-        system('notify-send "Stream not active"')
-            
+    if len(option) > 0:
+        if option[0] != '-----'  and  option[2] != '-----':
+            playback , recording = option[0] , option[2]
+            if selection == 'on' : 
+                start_streaming(playback , recording)
+            elif selection == 'off':
+                stop_streaming(devices , playback , recording)
+        else:
+            system('notify-send "Stream not active"')
+    system('notify-send "Invalid Option"')
 
 
 def generate_help():
