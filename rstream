@@ -112,6 +112,10 @@ def list_menu(devices , streams , selection):
 
     SOURCE , SINK = (devices[0] , devices[1])
 
+    if selection not in ('start', 'stop'):
+        print('Invalid option. Check rstream help for available options')
+        exit()
+
     output = ""
     for stream in streams:
         src  = stream["source"]
