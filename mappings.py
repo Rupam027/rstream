@@ -32,7 +32,6 @@ def get_source_id_by_name(src_name):
         source_name = source_names[source].split(":")[1].strip()
         source_id_by_name[source_name] = source_id
 
-    
     return source_id_by_name[src_name]
 
 
