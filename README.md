@@ -82,14 +82,14 @@ You can add all the applications you use for streaming in a simple configuration
  ### Usage
  
  
-rstream list        - List  status of all streams . 
+**rstream list**        - List  status of all streams . 
 
-rstream start (src-id) (dest-id) - 
-Start a Stream
+**rstream start [src-id] [dest-id]** - Start a Stream
 
-rstream stop (src-id) (dest - id) -  
-Stop a Stream
+**rstream stop [src-id] [dest-id]**  - Stop a Stream
 
+**rstream -m [start|stop]**  - Open menu and from there start or stop the stream. 
+> Currently supports only rofi and dmenu.
 
 ### Uninstallation 
 

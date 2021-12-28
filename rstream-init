@@ -1,19 +1,30 @@
-#!/bin/bash
+#!/usr/bin/python3
 
+from sys import exit, argv
+from os import environ, system as cmd
+from json import load
 
-Source="alsa_output.pci-0000_00_1f.3.analog-stereo.monitor" 
-Sink="alsa_output.pci-0000_00_1f.3.analog-stereo"
+### Load Source and Sink from config.json
+configfile = f"{environ['HOME']}/.config/rstream/config.json"
+try:
+    with open(configfile , 'r')  as stream_file :
+        streams = load(stream_file)
+except FileNotFoundError as fof:
+    print(f"Configuration file not found at {environ['HOME']}/.config/rstream/")
+    exit()
 
-if [ $# -eq 0 ]; then
+Source = streams['system_source']
+Sink = streams['system_sink']
 
-	
-    pactl load-module module-null-sink sink_name=V1
-    pactl load-module module-null-sink sink_name=V2
-
-    pactl load-module module-loopback source=$Source sink=V1
-    pactl load-module module-loopback source=V2.monitor sink=V1
- 	pactl load-module module-loopback source=V2.monitor sink=$Sink
- 	echo "Now You are ready to stream . Run the rstream command to start streaming ...."
-else
-    systemctl --user restart pulseaudio
-fi
+if len(argv) > 1:
+    cmd("systemctl --user restart pulseaudio")
+else:
+    command = f"""
+pactl load-module module-null-sink sink_name=V1
+pactl load-module module-null-sink sink_name=V2
+pactl load-module module-loopback source={Source} sink=V1
+pactl load-module module-loopback source=V2.monitor sink=V1
+pactl load-module module-loopback source=V2.monitor sink={Sink}
+"""
+    cmd(command)
+    print("Now You are ready to stream . Run the rstream command to start streaming ....")

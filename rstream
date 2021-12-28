@@ -1,7 +1,7 @@
 #!/usr/bin/python3
- 
-from os import * 
-from mappings import * 
+
+from os import *
+from mappings import *
 
 
 
@@ -10,27 +10,27 @@ def get_playbacks():
     playbackid  =  popen("pactl list sink-inputs | grep 'Sink Input '").read().split("\n")
     apps    =  popen("pactl list sink-inputs | grep application.process.binary").read().split("\n")
     c_sink = popen("pactl list sink-inputs | grep 'Sink: '").read().split("\n")
-        
-    
+
+
     n_playback = len(driver)
     playbacks = []
-    app_count = 0 
-    
+    app_count = 0
+
     for playback in range(n_playback-1):
         driver_name = driver[playback].split(":")[1].strip()
         _id  = playbackid[playback].split()[2].strip("#")
         in_use = c_sink[playback].split(":")[1].strip()
-        
+
         if driver_name != "module-loopback.c":
             app_name = apps[app_count].split('=')[1].strip().strip('"')
             playbacks.append((_id , app_name , in_use))
-            app_count += 1 
+            app_count += 1
 
     return playbacks
 
 
 def get_recording_streams():
-    
+
     driver      = popen("pactl list   source-outputs | grep Driver").read().split("\n")
     apps = popen("pactl list source-outputs | grep application.process.binary").read().split("\n")
     recordingid  =  popen("pactl list source-outputs | grep 'Source Output '").read().split("\n")
@@ -41,7 +41,7 @@ def get_recording_streams():
     app_count = 0
 
     for recording in range(n_recording-1):
-        
+
         driver_name = driver[recording].split(":")[1].strip()
         _id  = recordingid[recording].split()[2].strip("#")
         in_use  = c_source[recording].split(":")[1].strip()
@@ -49,8 +49,8 @@ def get_recording_streams():
         if driver_name != "module-loopback.c":
             app_name = apps[app_count].split('=')[1].strip().strip('"')
             recording_streams.append((_id , app_name , in_use))
-            app_count += 1 
-                
+            app_count += 1
+
     return recording_streams
 
 
@@ -62,8 +62,8 @@ def start_streaming(src , dest):
 
     popen(f'pacmd move-sink-input {src} {V2}')
     popen(f'pacmd move-source-output {dest} {V1}')
-        
-    
+
+
 
 
 def stop_streaming(devices , src , dest):
@@ -74,14 +74,14 @@ def stop_streaming(devices , src , dest):
 
 	popen(f'pacmd move-sink-input {src} {system_sink}')
 	popen(f'pacmd move-source-output {dest} {system_source}')
-    
-    
+
+
 
 def list_streams_status(devices , streams):
 
     print("Source-Instance-Id  Source-Instance-Binary Destination-Instance-Id Destination-Instance-Name Status")
     SOURCE , SINK = (devices[0] , devices[1])
-	
+
     for stream in streams:
         src  = stream["source"]
         dest = stream["destination"]
@@ -90,7 +90,7 @@ def list_streams_status(devices , streams):
         for source in sources :
             if source[1] == src:
                 f1.append(source)
-                
+
 
         for destination in destinations:
             if destination[1] == dest:
@@ -106,11 +106,15 @@ def list_streams_status(devices , streams):
                     print(s[0] , s[1] ,  d[0] , d[1] , "✅(Not-Started)" , sep="\t\t\t")
                 else:
                     print(s[0] , s[1] , d[0] , d[1] , "✅(Started)" , sep="\t\t\t")
-        
-def list_dmenu(devices , streams , selection):
 
-    
+def list_menu(devices , streams , selection):
+
+
     SOURCE , SINK = (devices[0] , devices[1])
+
+    if selection not in ('start', 'stop'):
+        print('Invalid option. Check rstream help for available options')
+        exit()
 
     output = ""
     for stream in streams:
@@ -121,33 +125,40 @@ def list_dmenu(devices , streams , selection):
         for source in sources :
             if source[1] == src:
                 f1.append(source)
-                
+
 
         for destination in destinations:
             if destination[1] == dest:
                 f2.append(destination)
 
 
-        
-        if f1 == [] or f2 == []:
-            output = output + "-----" + " " +  src +  " " + "-----" + " " +  dest + " " +  " ❌" + "\n" 
 
-        
+        if f1 == [] or f2 == []:
+            output = output + "-----" + " " +  src +  " " + "-----" + " " +  dest + " " +  " ❌" + "\n"
+
+
         for s in f1:
             for d  in f2:
                 if (int(s[2]) == int(get_sink_id_by_name(SINK))) and (int(d[2]) == int(get_source_id_by_name(SOURCE))):
                     output = output + s[0] + " " +  s[1]  + " " +   d[0]  + " " + d[1]  +   " " + "✅(Not-Started)" + "\n"
                 else:
-                    output = output + s[0] + " " +  s[1] + " " +  d[0] + " " +  d[1] + " " + "✅(Started)" + "\n" 
-    
-    
-    option = popen(f'echo "{output}" | dmenu -l 5 -p "All Streams:" ').read().split()
+                    output = output + s[0] + " " +  s[1] + " " +  d[0] + " " +  d[1] + " " + "✅(Started)" + "\n"
+
+    option=''
+    if menu == 'dmenu':
+        option = popen(f'echo "{output}" | dmenu -l 5').read().split()
+    elif menu == 'rofi':
+        option = popen(f'echo "{output}" | rofi -show -dmenu').read().split()
+    else:
+        print('%s currently not supported. Use dmenu or rofi.' %menu)
+        exit()
+
     if len(option) > 0:
         if option[0] != '-----'  and  option[2] != '-----':
             playback , recording = option[0] , option[2]
-            if selection == 'on' : 
+            if selection == 'start' :
                 start_streaming(playback , recording)
-            elif selection == 'off':
+            elif selection == 'stop':
                 stop_streaming(devices , playback , recording)
         else:
             system('notify-send "Stream not active"')
@@ -156,35 +167,54 @@ def list_dmenu(devices , streams , selection):
 
 def generate_help():
 
-    help_lines = ['Usage: rstream [OPTION] ... ', 'Stream content everywhere .', 'Example: rstream start <PARAMETERS> ', '', 'Options ', '', '  list                    get complete information of all streams', ' -d on   start dmenu to start a stream' ,   ' -d off   start dmenu to stop a stream' , 'start <stream-source-id> <stream-destination-id>      Start a stream', '  stop  <stream-source-id> <stream-destination-id>      Stop a stream', '  config                  Open Configuration file ']
+    help_lines = [
+    'Usage: rstream [OPTION] ... ',
+    'Stream content everywhere .',
+    'Example: rstream start <PARAMETERS> ',
+    '',
+    'Options ',
+    '',
+    '  help                                                 shows help and exit',
+    '  config                                               Open Configuration file',
+    '  list                                                 get complete information of all streams',
+    '  start <stream-source-id> <stream-destination-id>     Start a stream',
+    '  stop  <stream-source-id> <stream-destination-id>     Stop a stream',
+    '  -m start                                             open menu to start a stream' ,
+    '  -m stop                                              open menu to stop a stream' ,
+                 ]
     for line in help_lines:
         print(line)
 
 def config(filename , editor):
     system(f"{editor} {filename}")
-        
-            
-            
+
+
+
 import codecs
 if __name__ == '__main__' :
 
     from sys import argv
     import json
-    filename = f"{environ['HOME']}/.config/rstream/.stream_config.json"
+    filename = f"{environ['HOME']}/.config/rstream/config.json"
     try:
         with codecs.open(filename , 'r')  as stream_file :
             streams = json.load(stream_file)
     except FileNotFoundError as fof:
         print(f"Configuration file not found at {environ['HOME']}/.config/rstream/")
-        exit()    
+        exit()
     argument_count = len(argv)
-    audio_devs = (streams["system_source"] , streams["system_sink"])
-    
+    try:
+        audio_devs = (streams["system_source"] , streams["system_sink"])
+        menu = streams['menu']
+    except KeyError as ke:
+        print(ke, 'not specified in the config.json file')
+        exit()
+
     if 1 < argument_count <= 4:
         if argv[1] == "list" :
             list(audio_devs , streams["streams"])
-        elif argv[1] == '-d' :
-            list_dmenu(audio_devs , streams["streams"] , argv[2])
+        elif argv[1] == '-m' :
+            list_menu(audio_devs , streams["streams"] , argv[2])
 
         elif argv[1] == "start":
             start_streaming(audio_devs , argv[2] , argv[3])
@@ -193,10 +223,7 @@ if __name__ == '__main__' :
         elif argv[1] == "help":
             generate_help()
         elif argv[1] == "config":
-            config(filename , streams["DEFAULT-EDITOR"])
-                       
+            config(filename , getenv("EDITOR", "vi"))
+
     else:
         print("Invalid no. of arguments")
-    
-
-            
